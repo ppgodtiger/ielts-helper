@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>真题做题页面</title>
+    <link rel="stylesheet" href="../static/CSS/index.css">
+    <style>
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* 按钮与输入框之间的间隔 */
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+         .audio-player {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 两列，每列占据相同的空间 */
+            gap: 20px; /* 列之间的间隔 */
+        }
+
+        .question-side {
+            /* 题目侧样式 */
+        }
+
+        .answer-side {
+            /* 答案侧样式 */
+            display: flex;
+            flex-direction: column;
+        }
+         .question-side, .answer-side {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            height: 600px; /* 根据需要调整 */
+        }
+
+        .image-item {
+            text-align: center; /* 使图片居中 */
+        }
+
+        .answer-input {
+            margin-top: 20px; /* 输入框与图片之间的间隔 */
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* 按钮与输入框之间的间隔 */
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+        .question-side {
+        /* 题目侧样式 */
+        overflow-y: auto; /* 添加垂直滚动条 */
+        height: 1000px; /* 设置固定高度，或者根据需要调整 */
+    }
+        .answer-side {
+        /* 题目侧样式 */
+        overflow-y: auto; /* 添加垂直滚动条 */
+        height: 1000px; /* 设置固定高度，或者根据需要调整 */
+    }
+
+    </style>
+</head>
+  <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+
+        <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+            <a href="{{ url_for('test_index') }}">考试练习</a>
+            <a href="{{ url_for('video_index') }}">视频中心</a>
+        </nav>
+<body>
+<main>
+    <div class="audio-player">
+  {% for listen_material in listen_materials %}
+    <audio controls>
+      <source src="{{ listen_material[0] }}" type="audio/mpeg">
+      您的浏览器不支持 audio 元素。
+    </audio>
+  {% endfor %}
+  <div id="progress-container">
+    <div id="progress-bar" style="width: 0%;"></div>
+  </div>
+</div>
+      <div id="countdown">倒计时：30分钟</div>
+        <button id="start-countdown-btn">开始倒计时</button>
+        <button id="pause-countdown-btn" style="display: none;">暂停计时</button>
+</div>
+
+
+<div class="container">
+        <div class="question-side">
+            <h2>真题训练 {{ question_id }}</h2>
+            {% for image in images %}
+                <div class="image-item">
+                    <img src="{{ image[0] }}" alt="Image from database" style="max-width: 100%; height: auto;">
+                </div>
+            {% endfor %}
+        </div>
+        <div class="answer-side">
+        <h2>提交答案</h2>
+        {% for i in range(num) %}
+            question{{ i + 1 }}：<input type="text" class="answer-input" placeholder="输入您的答案">
+        {% endfor %}
+    <button id="submit-answer-btn">提交答案</button>
+</div>
+    </div>
+</main>
+</body>
+<script>
+
+   var submitAnswerBtn = document.getElementById('submit-answer-btn');
+
+
+// 确保初始状态下提交答案按钮是禁用的
+    submitAnswerBtn.disabled = true;
+    // 为按钮添加点击事件监听器
+    submitAnswerBtn.addEventListener('click', function(event) {
+        // 阻止表单的默认提交行为
+        event.preventDefault();
+
+        // 获取题目ID，这里假设您已经以某种方式将timu_id存储在页面中
+        var questionId = {{ question_id }}; // 确保这里的timu_id是正确的变量名
+
+        // 创建一个数组来存储答案
+        var answers = Array.from(document.querySelectorAll('.answer-input')).map(input => input.value);
+
+        // 构建要发送的数据对象
+        var data = {
+            question_id: questionId,
+            answers: answers
+        };
+
+        // 将数据对象转换为JSON字符串
+        var jsonData = JSON.stringify(data);
+
+        // 发送POST请求到服务器
+        fetch('/submit_listen_answers_t', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonData
+        })
+        .then(response => {
+            if (response.ok) {
+                // 如果提交成功，重定向到答案页面
+                window.location.href = '/test_practice_read/' + questionId;
+            } else {
+                // 如果提交失败，处理错误
+                return response.json().then(errorData => {
+                    console.error('Error submitting answers:', errorData);
+                });
+            }
+        })
+        .catch(error => {
+            // 处理请求错误
+            console.error('Error:', error);
+        });
+    });
+
+        var countdownElement = document.getElementById('countdown');
+        var countdownTime = 30 * 60; // 30分钟转换为秒
+        var countdownInterval;
+        var isCountdownStarted = false;
+        var isCountdownPaused = false;
+
+        function startCountdown() {
+            if (!isCountdownStarted) {
+                countdownInterval = setInterval(function() {
+                    if (!isCountdownPaused) {
+                        countdownTime--;
+                        var minutes = Math.floor(countdownTime / 60);
+                        var seconds = countdownTime % 60;
+                        countdownElement.textContent = "倒计时：" + minutes + "分" + seconds + "秒";
+                        if (countdownTime <= 0) {
+                            clearInterval(countdownInterval);
+                            // 倒计时结束时自动点击提交答案按钮
+                            document.getElementById('submit-answer-btn').click();
+                        }
+                    }
+                }, 1000);
+                isCountdownStarted = true;
+                document.getElementById('start-countdown-btn').style.display = 'none';
+                document.getElementById('pause-countdown-btn').style.display = 'block';
+            }
+            submitAnswerBtn.disabled = false;
+        }
+
+        function pauseCountdown() {
+            if (!isCountdownPaused) {
+                isCountdownPaused = true;
+                document.getElementById('pause-countdown-btn').textContent = '继续计时';
+            } else {
+                isCountdownPaused = false;
+                document.getElementById('pause-countdown-btn').textContent = '暂停计时';
+            }
+        }
+
+        document.getElementById('start-countdown-btn').addEventListener('click', startCountdown);
+        document.getElementById('pause-countdown-btn').addEventListener('click', pauseCountdown);
+
+        // 如果需要，在这里添加提交答案按钮的事件处理函数
+        document.getElementById('submit-answer-btn').addEventListener('click', function() {
+            // 提交答案的逻辑
+            alert('答案已提交！');
+        });
+
+
+</script>
+</html>

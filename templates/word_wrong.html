@@ -1,0 +1,269 @@
+
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>错词复习！</title>
+
+</head>
+
+<style>
+  body {
+    display:block;
+    background-repeat: no-repeat;
+    background-position:top center;
+    background-attachment:fixed;
+    height:100%;
+    background-size: cover;
+  }
+  a {
+  text-decoration: none; /* 去除超链接下划线 */
+  font-weight: bold;
+  transition: all 0.2s ease-in-out; /* 添加过渡效果，让文字颜色和背景颜色的变化更加平滑 */
+}
+
+a:hover {
+  color: #fff;
+  background-color: skyblue; /* 鼠标悬停时改变背景颜色 */
+  transform: translateY(-3px); /* 添加位移变换，向上移动 5px */
+}
+
+  /* 定义按钮样式 */
+  .option {
+    list-style: none;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #fff;
+    border: 2px solid #000;
+  }
+
+  /* 定义鼠标悬浮样式 */
+  .option:hover {
+    background-color: pink;
+    color: white;
+  }
+
+
+
+  /* 定义选择正确样式 */
+  .correct {
+    background-color: #00FF00 !important;
+    border-color: #00FF7F !important;
+    color: #fff !important;
+  }
+
+  /* 定义选择错误样式 */
+  .wrong {
+    background-color: #FF6347 !important;
+    border-color: #FF6347 !important;
+    color: #fff !important;
+  }
+
+  /* 禁用所有按钮样式 */
+  .disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .button-link {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 18px;
+    font-color: blue;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #fff;
+    border: 2px solid #000;
+  }
+  h1, h2, h3 {
+  margin: 0; /* 去除默认外边距 */
+  text-align: center;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+  padding-top: 1px;
+}
+
+h2 {
+  font-size: 24px;
+  padding-top: 5px;
+}
+
+h3 {
+  font-size: 18px;
+  padding-top: 5px;
+}
+
+#options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+  border-radius: 8px;
+  width: 29%;
+  height: 50%;
+  text-align: center;
+}
+
+p:hover {
+  color: black;
+
+}
+
+
+</style>
+
+<body>
+<a href="{{ url_for('word_learn') }}" ><p>返回专区</p></a>
+<h1 >单词复习</h1>
+<p>当前只差{{ num }}个单词没复习了，冲！</p>
+  {% for w in w %}
+
+
+  <div id="word-container">
+
+
+<div class="container">
+
+    <ul id="options">
+        <h2 id="word">{{ w.word }}</h2>
+        <h3>{{ w.phonetic }}</h3>
+      <li><button class="option" id="button1" value="{{ w1 }}" data-option="1" >{{ w1 }}</button></li>
+      <li><button class="option" id="button2" value="{{ w2 }}" data-option="2">{{ w2 }}</button></li>
+      <li><button class="option" id="button3" value="{{ w3 }}" data-option="3">{{ w3 }}</button></li>
+      <li><button class="option" id="button4" value="{{ w4 }}" data-option="4">{{ w4 }}</button></li>
+    </ul>
+</div>
+
+    <a href="#" class='button-link' onclick="reloadPage()">单词详情</a>
+  </div>
+
+  <script>
+    let selectedOption = null; // 初始化变量表示用户选择的选项
+    let JUD = {{ JUD }}; // 获取后端传来的 JUD 值
+
+    function disableAllOptions() {
+      const options = document.querySelectorAll('.option');
+      options.forEach((option) => {
+        option.classList.add('disabled');// 为每个按钮添加 'disabled' 类，使其看起来被禁用
+        option.removeEventListener('click', optionClickHandler);// 移除每个按钮的点击事件监听器，防止再次触发点击事件
+      });
+    }//禁用所有选项按钮，防止用户多次选择。
+
+
+    function sendJudToServer(jud) {
+      // 构造一个表单数据
+      const formData = new FormData();
+      formData.append('JUD', jud);
+
+      // 发送 POST 请求到后端
+      fetch('/word_new', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // 处理响应
+        console.log('JUD saved successfully:', data);
+        // 跳转到下一个页面
+        reloadPage();
+      })
+      .catch(error => {
+        // 处理错误
+        console.error('Error saving JUD:', error);
+      });
+    }// 返回JUD到flask后端，保存错题
+
+
+
+    function optionClickHandler(event) {
+      // 防止表单提交
+      event.preventDefault();
+
+      // 获取点击的选项元素和选项值
+      const option = event.currentTarget;
+      const value = option.value;
+
+      // 更新用户选择的选项
+      selectedOption = option;
+
+      // 找到正确答案对应的按钮
+      const correctOption = document.querySelector(`#button${JUD}`);
+
+      // 判断选项是否正确，并根据结果修改按钮样式并更新 JUD 值
+      if (value === "{{ w.translation }}") {
+            option.classList.add('correct');
+             JUD = 1; // 将 JUD 值设置为 1
+              //发送JUD
+            sendJudToServer(JUD);
+      } else {
+        option.classList.add('wrong');
+        // 将正确答案对应的按钮设置为绿色
+        correctOption.classList.add('correct');
+        JUD = 2; // 将 JUD 值设置为 2
+          //发送JUD
+        sendJudToServer(JUD);
+      }
+
+      // 禁用所有选项
+      disableAllOptions();
+    }
+
+
+    function reloadPage() {
+      // 如果未选择任何选项，不允许跳转
+      if (!selectedOption) {
+        return false;
+      }
+
+      // 获取用户选择的选项编号
+      const option = selectedOption.getAttribute("data-option");
+
+      // 构造 URL 并跳转
+      const url = "{{ url_for('word_detail_wrong', code=w.id) }}&option=" + option;
+      window.location.href = url;
+    }
+
+    const button1 = document.querySelector('#button1');
+    button1.addEventListener('click', optionClickHandler);
+
+    const button2 = document.querySelector('#button2');
+    button2.addEventListener('click', optionClickHandler);
+
+    const button3 = document.querySelector('#button3');
+    button3.addEventListener('click', optionClickHandler);
+
+    const button4 = document.querySelector('#button4');
+    button4.addEventListener('click', optionClickHandler);
+
+  </script>
+  {% endfor %}
+</body>
+
+</html>

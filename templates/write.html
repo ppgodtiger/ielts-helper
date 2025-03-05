@@ -1,0 +1,79 @@
+
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Material Design隐藏侧边栏网页布局模板|DEMO_jQuery之家-自由分享jQuery、html5、css3的插件库</title>
+	<link rel="stylesheet" type="text/css" href="../static/css3/default.css">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,700">
+  	<link rel="stylesheet" href="../static/css3/style.min.css">
+</head>
+<body>
+	<div id="wrapper" class="wrapper">
+	  <header class="header htmleaf-header">
+			<h1>开始你的作文练习<span>点击下方按钮提交作文，会自动生成作文的评分和建议</span></h1>
+			<div class="htmleaf-links">
+			</div>
+		</header>
+	  <main>
+	    <div class="container">
+	      <section>
+	        <h1>雅思作文评分助手</h1>
+	        <div id="github-icons">
+                <a href="{{ url_for('learn') }}">返回学习中心</a>
+                   <h2>雅思作文评分助手</h2>
+                   <h3>题目</h3>
+                   {{ question }}
+                   <form action="/rate_essay" method="post">
+                       <textarea name="essay_content" placeholder="在此输入你的雅思作文..." style="width: 100%; height: 200px;"></textarea>
+                       <br>
+                       <button type="submit">提交作文</button>
+                   <div>
+                       {{ result }}
+                   </div>
+                   </form>
+            </div>
+	              <p>点击提交作文，即可获得你的作文分数！</p>
+	      </section>
+
+	    </div>
+	  </main>
+	</div><!-- /wrapper -->
+
+	<button id="mm-menu-toggle" class="mm-menu-toggle">Toggle Menu</button>
+	<nav id="mm-menu" class="mm-menu">
+	  <div class="mm-menu__header">
+	    <h2 class="mm-menu__title">菜单</h2>
+	  </div>
+	  <ul class="mm-menu__items">
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="{{ url_for('index') }}">
+	        <span class="mm-menu__link-text"><i class="md md-home"></i> 首页</span>
+	      </a>
+	    </li>
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="{{ url_for('learn') }}">
+	        <span class="mm-menu__link-text"><i class="md md-person"></i> 个人中心</span>
+	      </a>
+	    </li>
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="{{ url_for('userinfo') }}">
+	        <span class="mm-menu__link-text"><i class="md md-inbox"></i> 学习中心</span>
+	      </a>
+	    </li>
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="#">
+	        <span class="mm-menu__link-text"><i class="md md-settings"></i> 联系开发者</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav><!-- /nav -->
+
+	<script src="../static/js2/production/materialMenu.min.js"></script>
+	<script>
+	  var menu = new Menu;
+	</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f7b733, #fc4a1a); /* 修改背景色为橙色渐变 */
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent; /* 使用透明背景 */
+        }
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: rgba(255, 229, 180, 0.8); /* 修改导航栏背景色 */
+        }
+        .nav a, .nav a:hover, .nav a:focus {
+         color: #333; /* 文本颜色保持不变，以确保对比度 */
+        }
+        .nav::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #ccc;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: transform 0.2s ease-in-out;
+        }
+        .nav a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        .nav a:hover, .nav a:focus {
+            background-color: #ddd;
+        }
+        .nav a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #333;
+            transform: scaleX(0);
+            transition: transform 0.2s ease-in-out;
+            visibility: hidden;
+        }
+        .nav a:hover::after, .nav a:focus::after {
+            transform: scaleX(1);
+            visibility: visible;
+        }
+        .content {
+            background-color: #fff8e6; /* 修改内容区域背景色 */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .content h2 {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d35400;/* 修改按钮背景色 */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 10px;
+
+        }
+        .btn:hover {
+            background-color: #e67e22; /* 修改按钮悬停背景色 */
+        }
+
+        form {
+            margin: 40px auto;
+            padding: 20px 30px;
+            width: 800px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 表单标题填写框样式 */
+        input[type="text"] {
+        width: 100%;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #555;
+        border-radius: 5px;
+        border: none;
+        background-color: #f6f6f6;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .alert {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        color: #333;
+    }
+    form div {
+        margin-bottom: 15px;
+    }
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    textarea {
+        height: 100px;
+        resize: vertical;
+    }
+    input[type="file"] {
+        padding: 10px;
+    }
+   button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff9800; /* 这是橙色的背景 */
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #f57c00; /* 这是橙色稍微深一点的颜色，用于悬停效果 */
+    }
+        body {
+    background: linear-gradient(135deg, #f7b733, #fc4a1a); /* 橙色渐变背景 */
+}
+
+    /* 修改容器背景色为透明，使其与页面背景颜色一致 */
+    .container {
+        background-color: transparent; /* 使用透明背景 */
+    }
+
+    /* 修改内容区域的背景色，使其与页面背景颜色一致 */
+    .content {
+        background-color: #fff; /* 使用白色背景，以保持与页面的对比 */
+    }
+
+    /* 修改导航栏背景色，使其与页面背景颜色一致 */
+    .nav {
+        background-color: rgba(255, 229, 180, 0.8); /* 使用浅橙色背景 */
+    }
+
+    /* 修改按钮背景色，使其与页面背景颜色一致 */
+    .btn {
+        background-color: #d35400; /* 使用橙色背景 */
+    }
+
+    /* 修改表单背景色，使其与页面背景颜色一致 */
+    form {
+        background-color: #fff; /* 使用白色背景，以保持与页面的对比 */
+    }
+
+    /* 修改输入框和文本域的背景色，使其与页面背景颜色一致 */
+    input[type="text"], textarea {
+        background-color: #fff; /* 使用白色背景，以保持与页面的对比 */
+    }
+        </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>欢迎来到雅思学习平台</h1>
+        {% if id %}
+        <p>已登录，欢迎您 {{ id }}!</p>
+        {% else %}
+        <p>您未登录，请先登录。</p>
+        <a href="{{ url_for('login') }}">登录</a>
+    {% endif %}
+        <div class="nav">
+            <a href="{{ url_for('index') }}" class="active">首页</a>
+            <a href="{{ url_for('userinfo') }}" class="active">个人中心</a>
+            <a href="#">考试报名</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#">关于编者</a>
+        </div>
+        <div class="alert">{{ message }}</div>
+            <div>
+            <form name="frm" method="post" >
+                <div><input type="text" name="title"  placeholder="请输入标题"></div>
+                <div><textarea name="body"  placeholder="请输入内容" style="white-space: pre-wrap; wrap: soft;"></textarea></div>
+                <button type="submit">发布</button>
+            </form>
+            </div>
+
+    </div>
+</body>
+</html>

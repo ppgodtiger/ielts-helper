@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>作文信息页</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//cdn.staticfile.org/layui/2.9.7/css/layui.css" rel="stylesheet">
+    <script src="//unpkg.com/layui@2.9.7/dist/layui.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin ">
+  <div class="layui-header">
+  <div class="layui-logo layui-hide-xs layui-bg-black layui-font-22">Admin系统</div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <!-- 移动端显示 -->
+      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </li>
+      <li class="layui-nav-item layui-hide-xs"><a href="{{ ('admin_index') }}">首页</a></li>
+      <li class="layui-nav-item">
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+        <a href="javascript:;">
+          <img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+          tester
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{ ('logout') }}">Sign out</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more-vertical"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+   <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-username" style="font-size: 30px; color: #1E9FFF;"></i>学生用户管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('stu_info') }}">基本信息管理</a></dd>
+            <dd><a class="layui-font-18" href="{{ ('student_m')}}">背词数据</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-read" style="font-size: 30px; color: #1E9FFF;"></i>作文管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('zuowen_info') }}">基本信息</a></dd>
+            <dd><a class="layui-font-18" href="{{ ('zuowen_jilu') }}">批改数据</a></dd>
+          </dl>
+            <li class="layui-nav-item">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-email" style="font-size: 30px; color: #1E9FFF;"></i>论坛管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('luntan_info') }}">论坛信息</a></dd>
+          </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-template-1" style="font-size: 30px; color: #1E9FFF;"></i>真题管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('yuedu_info') }}">阅读真题管理</a></dd>
+                <dd><a class="layui-font-18" href="{{ ('listen_info') }}">听力真题管理</a></dd>
+            </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-chart" style="font-size: 30px; color: #1E9FFF;"></i>rank信息管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('rank') }}">学生rank信息</a></dd>
+          </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-chart-screen" style="font-size: 30px; color: #1E9FFF;"></i>视频信息管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('video_info') }}">视频管理</a></dd>
+          </dl>
+      </li>
+      </ul>
+    </div>
+  </div>
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <blockquote class="layui-elem-quote layui-text layui-font-28">
+        您好，管理员，请查看作文题目以及范文
+      </blockquote>
+      <div class="layui-card layui-panel">
+        <div class="layui-card-header layui-font-22">
+          作文信息
+        </div>
+        <div class="layui-card-body layui-font-20">
+                <div class="layui-card-header" >
+          雅思作文信息表格
+        </div>
+            <!-- 在您的HTML中添加以下代码 -->
+            <div class="layui-input-inline">
+              <input type="text" id="searchInput" placeholder="请输入作文ID" class="layui-input">
+            </div>
+            <button type="button" id="searchBtn" class="layui-btn layui-bg-orange layui-btn-sm">搜索</button>
+
+            <table id = "zuowen" lay-filter="test"></table>
+
+            <script type="text/html" id="toolbarDemo">
+
+              <div class="layui-btn-container">
+                  <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+              </div>
+            </script>
+            <script type="text/html" id = "caozuo">
+
+                <button type="button" class="layui-btn layui-bg-orange layui-btn-sm" lay-event="del">删除</button>
+            </script>
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script type = "text/javascript">
+
+                layui.use("table",function () {
+                    var table = layui.table;
+                    table.render({
+                        elem:"#zuowen",// elem属性用来绑定容器的ID属性
+                        url:"/get_zuowen_list",//接口
+                        method:'get',
+                        cols:[[
+                            {field:'zuowen_id',title:'作文id',sort:true, width:150},
+                            {field:'example',title:'问题', width:250},
+                            {field:'question',title:'范文', width:500},
+                            {field: '操作',title:'操作',toolbar:'#caozuo'},
+                        ]],
+                        page:true,
+                        toolbar: "#toolbarDemo"
+                    });
+                    //表头工具事件
+                    table.on('toolbar(zuowen)'),function (obj) {
+                    var options = obj.config;
+                    switch (obj.event) {
+                        case 'add':
+                            window.show_add()
+                            break;
+                    }
+
+                }
+                })
+                 window.show_add = function () {
+                    layer.msg('添加');
+                }
+
+
+            </script>
+      </div>
+        </div>
+      </div>
+      <br><br>
+    </div>
+  </div>
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    底部固定区域
+  </div>
+</div>
+</body>
+</html>

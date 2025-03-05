@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛中心</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f7b733, #fc4a1a); /* 修改背景色为橙色渐变 */
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: rgba(255, 229, 180, 0.8); /* 修改导航栏背景色 */
+        }
+        .nav a, .nav a:hover, .nav a:focus {
+         color: #333; /* 文本颜色保持不变，以确保对比度 */
+        }
+        .nav::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #ccc;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: transform 0.2s ease-in-out;
+        }
+        .nav a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        .nav a:hover, .nav a:focus {
+            background-color: #ddd;
+        }
+        .nav a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #333;
+            transform: scaleX(0);
+            transition: transform 0.2s ease-in-out;
+            visibility: hidden;
+        }
+        .nav a:hover::after, .nav a:focus::after {
+            transform: scaleX(1);
+            visibility: visible;
+        }
+        .content {
+            background-color: #fff8e6; /* 修改内容区域背景色 */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+            width: 800px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .content h2 {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d35400;/* 修改按钮背景色 */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 10px;
+
+        }
+        .btn:hover {
+            background-color: #e67e22; /* 修改按钮悬停背景色 */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>欢迎来到雅思论坛中心</h1>
+        {% if id %}
+        <p>已登录，欢迎您 {{ id }}!</p>
+        {% else %}
+        <p>您未登录，请先登录。</p>
+        <a href="{{ url_for('login') }}">登录</a>
+        {% endif %}
+           <div class="nav">
+                <a href="{{ url_for('index') }}" class="active">首页</a>
+                <a href="{{ url_for('userinfo') }}" class="active">个人中心</a>
+                <a href="#">考试报名</a>
+                <a href="{{ url_for('learn') }}">学习中心</a>
+                <a href="#">关于编者</a>
+
+            </div>
+                <a href="{{ url_for('post') }}">我也想发帖</a>
+            {% for luntan in luntan_info %}
+                <div  class="content">
+                    <h2>标题：{{ luntan.title }}</h2>
+                    <p>内容:{{ luntan.body }}</p>
+                    <p2>作者:{{ luntan.username }}</p2>
+                </div>
+            {%  endfor %}
+
+            <div class="pagination">
+             <div id="page">
+                 <span>页码: <span>{{ pageInfo.nowPage }}/{{ pageInfo.totalPage }}
+                 </span> 每页: <span>{{ pageInfo.pageSize }}</span> 条记录
+                     共: <span>{{ pageInfo.total }}</span> 条记录</span>
+
+             {% if  pagination.page!=pageInfo.totalPage %}
+                 <a href="{{ url_for("luntan1",page=pagination.page + 1)}}">下一页</a>
+             {% else %}
+                 <a href="javascript:void(0)",page=pagination.page+1)}}">下一页</a>
+             {% endif %}
+
+             {% if  pagination.page!=1 %}
+                 <a href="{{ url_for("luntan1",page=pagination.page - 1) }}">上一页 |</a>
+             {% else %}
+                 <a href="javascript:void(0)">上一页 |</a>
+             {% endif %}
+         </div>
+        </div>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../static/css4/demo.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css4/component.css" />
+		<script src="../static/js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div id="splitlayout" class="splitlayout">
+				<div class="intro">
+					<div class="side side-left">
+						<header class="codropsheader clearfix">
+							<h1>Split Layout</h1>
+							<div class="demos">
+								<a class="current" href="{{ url_for('index') }}">返回首页</a>
+								<a href="{{ url_for('learn') }}">学习中心</a>
+							</div>
+						</header>
+						<div class="intro-content">
+							<div ><img src="../static/images/OIP-C.jpg" alt="profile1"></div>
+							<h1><span>新词学习</span><span>在这里可以学习新的雅思词汇</span></h1>
+						</div>
+						<div class="overlay"></div>
+					</div>
+					<div class="side side-right">
+						<div class="intro-content">
+							<div ><img src="../static/images/OIP-D.jpg" alt="profile2"></div>
+							<h1><span>单词复习</span><span>在这里复习你学习过的词汇</span></h1>
+						</div>
+						<div class="overlay"></div>
+					</div>
+				</div><!-- /intro -->
+				<div class="page page-right">
+					<div class="page-inner">
+						<section>
+                            <h1><span><a href="{{ url_for('word_wrong') }}">进入单词复习</a></span></h1>
+								<p>复习雅思单词对于提高考试成绩非常重要</p>
+                                <p>提高理解能力：雅思的听力和阅读部分要求考生能够理解大量的信息。掌握丰富的词汇量有助于更快地理解文章大意和听力材料，从而提高答题速度和准确率。</p>
+                                <p>增强表达能力：在写作和口语部分，丰富的词汇可以使表达更加准确、多样和自然。使用高级词汇和短语能够给考官留下深刻印象，有助于获得高分。</p>
+
+                        </section>
+
+					</div><!-- /page-inner -->
+				</div><!-- /page-right -->
+				<div class="page page-left">
+					<div class="page-inner">
+						<section>
+                            <h1><span> <a href="{{ url_for('word_new') }}">进入新词学习</a></span></h1>
+							<p>雅思新词学习的重要性在于，雅思考试要求考生具备较高的英语词汇水平.新词学习能够帮助考生扩大词汇量，提高阅读理解、听力理解、口语表达和写作能力</p>
+							<p>对于基础词汇量，雅思考试没有官方规定一个具体的数字。但是，为了达到一个比较理想的分数，例如总分6.0或以上，考生通常需要掌握至少4000到6000个基础词汇。</p>
+						</section>
+
+					</div><!-- /page-inner -->
+				</div><!-- /page-left -->
+				<a href="#" class="back back-right" title="back to intro">&rarr;</a>
+				<a href="#" class="back back-left" title="back to intro">&larr;</a>
+			</div><!-- /splitlayout -->
+		</div><!-- /container -->
+		<script src="../static/js/classie.js"></script>
+		<script src="../static/js/cbpSplitLayout.js"></script>
+	</body>
+</html>

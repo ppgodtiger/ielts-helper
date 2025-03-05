@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录页面</title>
+    <link rel="stylesheet" href="../static/CSS/index.css">
+    <style>
+ .images-container {
+            text-align: center; /* 添加这一行，使图片水平居中 */
+        }
+
+        .center-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #check-answer-btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #check-answer-btn:hover {
+            background-color: #555;
+        }
+        .container {
+    display: flex;
+    height: 100vh; /* 使容器占据整个视口的高度 */
+}
+
+.images-container {
+    flex: 1; /* 设置图片容器占据剩余空间 */
+    overflow-y: auto; /* 添加滚动条 */
+    padding: 10px;
+}
+
+.answer-side {
+    flex: 1; /* 设置答案容器占据剩余空间 */
+    overflow-y: auto; /* 添加滚动条 */
+    padding: 10px;
+}
+
+/* 确保image-item和answer-side中的元素不会超出容器 */
+.images-container img {
+    max-width: 100%;
+    height: auto;
+}
+    .bordered-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .bordered-table th,
+    .bordered-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .bordered-table th {
+        background-color: #f2f2f2;
+    }
+
+    </style>
+</head>
+  <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+
+       <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+        </nav>
+<body>
+<body>
+    <h2>真题训练 {{ timu_id }} 解析</h2>
+    <div class="container">
+        <div class="images-container">
+            <div class="image-item">
+                <img src="{{ answers[0] }}" alt="Image from database" style="max-width: 100%; height: auto;">
+            </div>
+            <!-- 添加更多image-item容器以显示其他图片 -->
+        </div>
+           <div class="answer-side">
+            <h2>真题训练 {{ question_id }} 答案</h2>
+            <table class="bordered-table">
+                <tr>
+                    <th>您的答案</th>
+                    <th>正确答案</th>
+                </tr>
+                {% for i in range(submitted_answers|length) %}
+                <tr>
+                    <td>{{ submitted_answers[i] }}</td>
+                    <td>{{ correct_answers[i] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

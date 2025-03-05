@@ -1,0 +1,143 @@
+
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>倾斜页面打开侧边栏菜单UI界面设计|DEMO_jQuery之家-自由分享jQuery、html5、css3的插件库</title>
+	<link rel="stylesheet" type="text/css" href="../static/CSS/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../static/CSS//default.css">
+	<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Architects+Daughter'>
+	<link rel="stylesheet" type="text/css" href="../static/CSS//styles.css">
+    <style>
+        .content {
+            background-color: #fff8e6; /* 修改内容区域背景色 */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .content h2 {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .content p {
+            color: #666;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+	<div id="paper-back">
+		<nav>
+			<div class="close"></div>
+            <a href="{{ url_for('index') }}" class="active">HOME</a>
+            <a href="{{ url_for('userinfo') }}" class="active">个人中心</a>
+			<a href="{{ url_for('learn') }}">学习中心</a>
+			<a href="#">Contact</a>
+		</nav>
+	</div>
+	<div id="paper-window">
+		<div id="paper-front">
+			<div class="hamburger"><span></span></div>
+			<div id="container">
+				<section>
+					<header class="htmleaf-header">
+						<h1>欢迎来到用户个人中心<span>欢迎您，点击下方可以修改个人信息</span></h1>
+					</header>
+					<p>Click the hamburger icon to see it in action</p>
+				</section>
+				<section>
+
+                    <div class = "content">
+                        <div class="profile-img">
+          <img src="{{ image_path }}" width="112" height="112" alt="头像" class="center-img">
+    </div>
+                    <div class="container">
+                        <div class="info">
+                            <label>姓名：</label><span>{{ username }}</span>
+                        </div>
+                        <div class="info">
+                            <label>我的id：</label><span>{{ id }}</span>
+                        </div>
+                        <div class="info">
+                            <label>性别：</label><span>男</span>
+                        </div>
+                        <div class="info">
+                            <label>电子邮箱：</label><span>{{ email }}</span>
+                        </div>
+                        <div class="info">
+                            <label>电话号码：</label><span>无</span>
+                        </div>
+                    </div>
+
+        </div>
+                <a style="text-decoration:none" href="{{ url_for('euserinfo') }}">修改个人信息</a>
+	<script src="../static/js/jquery-2.1.1.min.js"></script>
+	<script>
+      var paperMenu = {
+	    $window: $('#paper-window'),
+	    $paperFront: $('#paper-front'),
+	    $hamburger: $('.hamburger'),
+	    offset: 1800,
+	    pageHeight: $('#paper-front').outerHeight(),
+	    open: function () {
+	        this.$window.addClass('tilt');
+	        this.$hamburger.off('click');
+	        $('#container, .hamburger').on('click', this.close.bind(this));
+	        this.hamburgerFix(true);
+	        // console.log('opening...');
+	    },
+	    close: function () {
+	        this.$window.removeClass('tilt');
+	        $('#container, .hamburger').off('click');
+	        this.$hamburger.on('click', this.open.bind(this));
+	        this.hamburgerFix(false);
+	        // console.log('closing...');
+	    },
+	    updateTransformOrigin: function () {
+	        scrollTop = this.$window.scrollTop();
+	        equation = (scrollTop + this.offset) / this.pageHeight * 100;
+	        this.$paperFront.css('transform-origin', 'center ' + equation + '%');
+	    },
+	    hamburgerFix: function (opening) {
+	        if (opening) {
+	            $('.hamburger').css({
+	                position: 'absolute',
+	                top: this.$window.scrollTop() + 30 + 'px'
+	            });
+	        } else {
+	            setTimeout(function () {
+	                $('.hamburger').css({
+	                    position: 'fixed',
+	                    top: '30px'
+	                });
+	            }, 300);
+	        }
+	    },
+	    bindEvents: function () {
+	        this.$hamburger.on('click', this.open.bind(this));
+	        $('.close').on('click', this.close.bind(this));
+	        this.$window.on('scroll', this.updateTransformOrigin.bind(this));
+	    },
+	    init: function () {
+	        this.bindEvents();
+	        this.updateTransformOrigin();
+	    }
+	};
+	paperMenu.init();
+    </script>
+</body>
+</html>

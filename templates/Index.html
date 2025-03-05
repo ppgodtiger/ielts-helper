@@ -1,0 +1,378 @@
+
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>雅思小助手</title>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f1f1f1;
+            }
+            header {
+                background-color: #333;
+                padding: 20px;
+                text-align: center;
+                color: white;
+            }
+            nav {
+                background-color: #dc0404;
+                overflow: hidden;
+            }
+            nav a {
+                float: left;
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            nav a:hover {
+                background-color: #ff6666;
+                color: white;
+            }
+            main {
+                margin: 20px;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加浅色阴影 */
+    }
+            footer {
+                background-color: #333;
+                color: white;
+                text-align: center;
+                padding: 10px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            .animated-title {
+
+            }
+            .announcement-box {
+                margin: 20px 0;
+                padding: 15px;
+                background-color: #ffff99; /* 黄色背景 */
+                border: 1px solid #ffcc00; /* 边框颜色 */
+                text-align: center;
+
+            }
+            .content-box {
+                margin: 20px;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative; /* 为按钮定位设置相对定位 */
+                height: 80px;
+
+            }
+            .content-box button {
+                position: absolute;
+                bottom: 10px; /* 底部距离 */
+                right: 10px; /* 右侧距离 */
+                background-color: #333; /* 底边栏颜色 */
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                border-radius: 4px; /* 圆角边框 */
+            }
+            .content-box button:hover {
+                background-color: #555; /* 按钮悬停颜色 */
+            }
+            .content-box {
+                display: flex; /* 使用flex布局 */
+                height: 180px; /* 设置高度 */
+                margin: 20px;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .content-area {
+                flex-grow: 1; /* 内容区域占满剩余空间 */
+            }
+
+            .vertical-nav {
+                display: flex; /* 使用flex布局 */
+                flex-direction: column; /* 垂直排列子元素 */
+                justify-content: space-between; /* 均匀分布空间 */
+                width: 200px; /* 设置导航栏宽度 */
+                padding: 0 20px; /* 添加内边距 */
+                border-left: 1px solid #ddd; /* 添加左侧边框 */
+            }
+            .vertical-nav a {
+                text-decoration: none;
+                color: #333;
+                padding: 8px 0; /* 添加垂直内边距 */
+                transition: color 0.3s ease; /* 悬停颜色过渡效果 */
+            }
+            .vertical-nav a:hover {
+                color: #3a3a3a; /* 悬停时颜色变深 */
+            }
+            .btn{
+                position: absolute;
+                bottom: 10px; /* 底部距离 */
+                left: 10px; /* 左边侧距离 */
+                background-color: #333; /* 底边栏颜色 */
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                transition-duration: 0.4s;
+                border-radius: 4px; /* 圆角边框 */
+
+            }
+            .btn:hover{
+                background-color: #9f9f9f; /* 按钮悬停颜色 */
+            }
+            .logout-button{
+                color:#e9e7e7;
+            }
+
+            /*轮播图css*/
+            #max{
+      width: 1300px;
+      height: 700px;
+      align-items: center;
+      margin: 5% auto;
+      margin-top: 0%;
+    }
+    .re{
+      position: relative;
+      height: 400px;
+    }
+    .re ul{
+      list-style-type:none ;
+    }
+    .re ul>li{
+      width: 600px;
+      height: 300px;
+      position: absolute;
+
+      transition: 1s;
+      opacity: 0;
+    }
+    .re ul>li img{
+      width: 1300px;
+      height: 600px;
+    }
+    #max ol {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5,75px);
+      grid-template-rows: auto;
+      grid-gap: 1em;gap: 1em;
+      float: right;
+      margin-top: 450px;
+      list-style: none;
+      top:0;left:0;
+    }
+    #max ol li {
+      width: 10px;
+      height: 10px;
+      border-radius: 2em;
+    }
+
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+        <div id="max">
+            <div class="re">
+                <ul>
+                    <li><img src="../static/images/v2-b3a76e734207edfe3f85d6d93056368a_180x120.png" alt=""></li>
+                    <li><img src="../static/images/8AFDBF9111FA2976D7E51DC441993F2E89F5EB61_size251_w1080_h743.png" alt=""></li>
+                    <li><img src="../static/images/R-C.gif" alt=""></li>
+                </ul>
+                <ol>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ol>
+            </div>
+        </div>
+
+        <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+            <a href="{{ url_for('test_index') }}">考试练习</a>
+            <a href="{{ url_for('video_index') }}">视频中心</a>
+        </nav>
+        <main>
+            <h2>欢迎来到雅思小助手</h2>
+            <p>这里是您的雅思学习伙伴，为您提供丰富的学习资源和在线练习。</p>
+            <div class="announcement-box animated-title">
+                <h3>公告</h3>
+                <p>欢迎各位同学使用我们的在线练习平台！请留意我们的最新资源和活动信息。</p>
+                <p>部分功能还在开发中，请同学们不要误触按钮</p>
+            </div>
+        </main>
+        <div class="content-box">
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <h2>论坛</h2>
+                <div id="cc" align="center" style="position: absolute;"></div>
+                    <a href="{{url_for('luntan1')}}" class = 'btn'>了解更多</a>
+            </div>
+
+            <!-- 竖向导航栏 -->
+            <div class="vertical-nav">
+                <a href="{{ url_for('userinfo') }}" >个人信息</a>
+                <a href="{{ url_for('euserinfo') }}">修改个人信息</a>
+                <a href="#practice-developer">联系开发者</a>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <footer>
+            &copy; 2024 雅思小助手. All rights reserved.
+        </footer>
+    </body>
+    </html>
+    <script>
+    var Aletter=new Array();
+    var Acolor=new Array("#000000","#000000","#000000","#000000","#000000","#000000");
+    Aletter[0]="想要获取最新的咨询吗？";
+    Aletter[1]="想要知道一手雅思考场经验吗？";
+    Aletter[2]="加入论坛！";
+    Aletter[3]="这里有最迅速的雅思考试信息！";
+    Aletter[4]="还有和你志同道合的同学";
+    Aletter[5]="快点击下方按钮加入讨论吧！";
+
+    var i=0;
+    document.all.cc.style.width=document.body.clientWidth;
+    function letter(){
+      if (i==Aletter.length) i=0;
+      cc.innerHTML='<font color="'+Acolor[i]+'" size="+1">'+Aletter[i]+'</font>';
+      ++i;
+      setTimeout("letter()",1000);
+    }
+    letter();
+    </script>
+
+    <script>var textstr = "好好学习向上";
+    var TColor = "#ffcc00";
+    var TFont = "楷书";
+    textstr = textstr.split("");
+    var n = textstr.length;
+    var mass = 360 / n;
+    var cy = cx = sb = 0;
+    var yb = 50;
+    var xb = 60;
+    var sa = 0.02;
+    var pa = new Array();
+    var pb = new Array();
+    var logo = document.getElementById("logo");
+
+    for (var i = 0; i < n; i++) {
+      var span = document.createElement("span");
+      span.textContent = textstr[i];
+      span.style.position = "absolute";
+      span.style.height = "30px";
+      span.style.width = "30px";
+      span.style.fontFamily = TFont;
+      span.style.textAlign = "center";
+      span.style.color = TColor;
+      logo.appendChild(span);
+    }
+
+    function sport() {
+      cy = document.body.scrollTop + 60;
+      cx = document.body.scrollLeft + window.document.body.clientWidth - 100;
+      for (var i = 0; i < n; i++) {
+        var span = logo.children[i];
+        span.style.top = cy + yb * Math.sin(sb + i * mass * Math.PI / 180) + "px";
+        span.style.left = cx + xb * Math.cos(sb + i * mass * Math.PI / 180) + "px";
+        pb[i] = span.offsetTop - cy;
+        pa[i] = pb[i] - pb[i] * 2;
+        if (pa[i] < 1) {
+          pa[i] = 0;
+          span.style.visibility = 'hidden';
+        } else {
+          span.style.visibility = 'visible';
+        }
+        span.style.fontSize = pa[i] / 1.7 + "px";
+      }
+      sb -= sa;
+      requestAnimationFrame(sport);
+    }
+
+    sport();
+    </script>
+    <script>
+        window.onload = function(){
+      var box=this.document.getElementsByClassName("re")[0];
+      var lik=box.getElementsByTagName("li");
+      function fun(i,j){//转换图片函数，就是把透明度改了一下
+        lik[i].style.opacity=1;
+        lik[j].style.opacity=0;
+        lik[i+5].style.backgroundColor="#ffffff";//改一下小图标
+        lik[j+5].style.backgroundColor="#00000000"
+      }
+      fun(0,1);//初始化下
+      var i =0;
+      function auto(){//轮播循环函数
+        if(++i>=5){
+          i=0;
+          fun(0,4);
+        }
+        else fun(i,i-1);
+      }
+      timer=this.setInterval(auto,1000);
+      box.onmouseover = function () { //鼠标划上去，停止轮播
+        console.log('good');
+        clearInterval(timer);
+      }
+      box.onmouseout = function () { //鼠标划出，继续轮播
+        timer = setInterval(auto, 2000); //调用定时器
+      }
+      var j =0;
+      for(;j<5;j++){//点击小图标也可以转换图片
+        lik[j+5].ind=j;
+        lik[j+5].onclick=function(){
+          fun(this.ind,i)
+          i=this.ind;
+        }
+      }
+
+    }
+
+    </script>

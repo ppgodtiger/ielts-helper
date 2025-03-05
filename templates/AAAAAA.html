@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Practice Writing</title>
+    <!-- 引入jQuery，用于发送AJAX请求 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>小写作练习</h1>
+    <!-- 图片展示区 -->
+    {% if images %}
+        {% for image in images %}
+            <img src="../static/images/考试题库/小作文1.png" alt="Question Image" style="max-width: 100%;">
+        {% endfor %}
+    {% endif %}
+
+    <!-- 作文输入区 -->
+    <form id="writingForm">
+        <label for="essay">请在此输入您的作文:</label><br>
+        <textarea id="essay" name="essay" rows="10" cols="50"></textarea><br>
+        <input type="hidden" name="question_id" value="{{ question_id }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <input type="button" value="提交作文" onclick="submitEssay()">
+    </form>
+
+    <!-- AJAX处理结果 -->
+    <div id="result"></div>
+
+    <script>
+        function submitEssay() {
+            var essay = $('#essay').val();
+            var question_id = $('input[name="question_id"]').val();
+            var id = $('input[name="id"]').val();
+
+            $.ajax({
+                url: '/submit_test_Lessay',  // 假设后端有一个 '/submit_essay' 路径处理提交
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'essay': essay, 'question_id': question_id, 'id': id }),
+                success: function(response) {
+                    $('#result').html('<p>作文提交成功!</p>');
+                },
+                error: function(error) {
+                    $('#result').html('<p>作文提交失败，请重试!</p>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

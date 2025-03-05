@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>真题做题页面</title>
+    <link rel="stylesheet" href="../static/CSS/index.css">
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+tr:hover td {
+    background-color: #f5f5f5;
+}
+
+/* 按钮样式 */
+.main-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.main-button:hover {
+    background-color: #555;
+}
+
+    </style>
+</head>
+  <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+
+         <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+        </nav>
+<body>
+<main>
+
+<h1>您的Rank分为: {{ rank }}</h1>
+     {% if rank > 1680 %}
+        <p>您的水平已经登峰造极！</p>
+    {% elif rank > 680 %}
+        <p>已经很努力了，继续加油！</p>
+    {% elif rank > 100 %}
+        <p>有点能过的感觉了</p>
+    {% else %}
+        <p>努努力，还差点感觉！</p>
+    {% endif %}
+</main>
+<main>
+     <h1>用户阅读正确率</h1>
+       <table class="user-right-rates-table">
+    <tr>
+        <th>用户ID</th>
+        <th>真题编号</th>
+        <th>正确率</th>
+        <th>操作</th>
+    </tr>
+    {% for user_rate in user_rates %}
+    <tr>
+        <td>{{ user_rate.id }}</td>
+        <td>阅读真题{{ user_rate.timu_id }}</td>
+        <td>{{ user_rate.right_rate*100 }}%</td>
+        <td>
+             <a href="{{ url_for('practice', timu_id=user_rate.timu_id) }}" class="main-button">重新练习</a>
+            <a href="{{ url_for('show_practice_record', timu_id=user_rate.timu_id) }}" class="main-button">查看做题记录</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</main>
+<main>
+<h1>用户听力正确率</h1>
+       <table class="user-right-rates-table">
+    <tr>
+        <th>用户ID</th>
+        <th>听力编号</th>
+        <th>正确率</th>
+        <th>操作</th>
+    </tr>
+    {% for user_listen_rate in user_listen_rates %}
+    <tr>
+        <td>{{ user_listen_rate.id }}</td>
+        <td>听力真题{{ user_listen_rate.question_id }}</td>
+        <td>{{ user_listen_rate.right_rate*100 }}%</td>
+        <td>
+             <a href="{{ url_for('listen_practice', question_id=user_listen_rate.question_id) }}" class="main-button">重新练习</a>
+             <a href="{{ url_for('show_listen_record', question_id=user_listen_rate.question_id) }}" class="main-button">查看做题记录</a>
+        </td>
+    </tr>
+    {% endfor %}
+</main>
+</body>
+<script>
+
+</script>
+
+</html>

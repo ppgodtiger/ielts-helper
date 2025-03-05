@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单词详情</title>
+</head>
+<style>
+    body {
+    display:block;
+    background-repeat: no-repeat;
+    background-position:top center;
+    background-attachment:fixed;
+    height:100%;
+    background-size: cover;
+    opacity:0.8;
+  }
+  a {
+  text-decoration: none; /* 去除超链接下划线 */
+  font-weight: bold;
+  transition: all 0.2s ease-in-out; /* 添加过渡效果，让文字颜色和背景颜色的变化更加平滑 */
+}
+
+a:hover {
+  color: #fff;
+  background-color: skyblue; /* 鼠标悬停时改变背景颜色 */
+  transform: translateY(-3px); /* 添加位移变换，向上移动 5px */
+}
+
+  /* 定义按钮样式 */
+  .option {
+    list-style: none;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #fff;
+    border: 2px solid #000;
+  }
+
+  /* 定义鼠标悬浮样式 */
+  .option:hover {
+    background-color: pink;
+    color: white;
+  }
+
+
+
+  /* 定义选择正确样式 */
+  .correct {
+    background-color: #00FF00 !important;
+    border-color: #00FF7F !important;
+    color: #fff !important;
+  }
+
+  /* 定义选择错误样式 */
+  .wrong {
+    background-color: #FF6347 !important;
+    border-color: #FF6347 !important;
+    color: #fff !important;
+  }
+
+  /* 禁用所有按钮样式 */
+  .disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .button-link {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 18px;
+    font-color: orange;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #fff;
+    border: 2px solid #000;
+  }
+  h1, h2, h3 {
+  margin: 0; /* 去除默认外边距 */
+  text-align: center;
+  color: #333;
+}
+
+h1 {
+  font-size: 50px;
+  padding-top: 1px;
+}
+
+h2 {
+  font-size: 45px;
+  padding-top: 5px;
+}
+
+h3 {
+  font-size: 40px;
+  padding-top: 5px;
+}
+
+#options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+  border-radius: 8px;
+  width: 29%;
+  height: 50%;
+  text-align: center;
+}
+  p{
+  color:green;
+  margin:20px auto;
+  margin-left:10px;
+  font-size:25px;
+  transition: all 0.2s ease-in-out;
+}
+p:hover {
+  color: black;
+
+}
+
+.div1 {
+    display: flex;
+    flex-direction: column; /* 竖直方向列布局 */
+    justify-content: space-between;
+    margin-left:20%;
+    align-items: center; /* 水平居中 */
+    background-color: rgba(255, 255, 255, 1);
+    padding: 10px;
+    border-radius: 8px;
+    width: 60%;
+    min-height: 100vh; /* DIV 高度等于视窗高度 */
+    text-align: center;
+    position: relative; /* 设置相对定位 */
+    padding-left: 60px; /* 左侧留出空间 */
+  }
+  .a1{
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    position: absolute; /* 设置绝对定位 */
+    top: 0; /* 距离顶部距离为 0 */
+    left: 0; /* 距离左侧距离为 0 */
+    margin: 20px;
+  }
+
+
+   table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            font-size:20px;
+            color:blue;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+</style>
+ <body>
+ <div class="div1">
+     {% for i in w %}
+      <a class="a1" href="{{ url_for('word_learn') }}" ><p>返回专区</p></a>
+      <h1 style="color:brown">单词详情</h1>
+     <h2 id="word">{{ i.word }}</h2>
+     <h3>{{ i.phonetic }}</h3>
+
+      <table>
+         <thead>
+            <tr>
+               <th>单词例句</th>
+                <th>单词释义</th>
+                <th>同义单词</th>
+            </tr>
+         </thead>
+
+         <tbody>
+
+               <tr>
+                  <td>{{ i.definition }}</td>
+                   <td>{{ i.translation }}</td>
+                   <td>{{ i.exchange }}</td>
+               </tr>
+
+         </tbody>
+      </table>
+     <a class='button-link' href="{{ url_for('word_wrong',wid=(i.id + 1)) }}">NEXT——>下一个单词</a>
+        <script type="text/javascript">
+                function refreshTime() {
+                    $.getJSON('/get-time', function(data) {
+                        $('#server-time').text("Server time: " + data.time);
+                    });
+                }
+                setInterval(refreshTime, 1000); // Refresh every second
+        </script>
+        {% endfor %}
+    </div>
+   </body>
+</html>

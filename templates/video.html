@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>视频播放器</title>
+    <link rel="stylesheet" href="../static/CSS/index.css">
+    <style>
+ .video-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px; /* 视频之间的间距 */
+        }
+        /* 视频样式 */
+        .video-item {
+            width: 640px; /* 视频宽度 */
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+  <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+  </head>
+ <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+            <a href="{{ url_for('test_index') }}">考试练习</a>
+            <a href="{{ url_for('video_index') }}">视频中心</a>
+        </nav>
+ <main>
+        <div class="video-container">
+            {% for video in videos %}
+                <main>
+                <div class="video-item">
+                    <video width="640" height="360" controls>
+                        <source src="{{ url_for('video', filename=video) }}" type="video/mp4">
+                        你的浏览器不支持视频标签。
+                    </video>
+                </div>
+                </main>
+            {% endfor %}
+        </div>
+ </main>
+</html>

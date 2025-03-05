@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fading Carousel</title>
+<style>
+    .carousel {
+        width: 100%;
+        margin: auto;
+        overflow: hidden;
+        position: relative;
+    }
+    .carousel img {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 1s; /* 添加淡入淡出效果 */
+    }
+    .carousel img.active {
+        opacity: 1;
+    }
+    .indicators {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .indicators span {
+        cursor: pointer;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin: 0 5px;
+        display: inline-block;
+    }
+    .indicators span.active {
+        background-color: #333;
+    }
+</style>
+</head>
+<body>
+<div class="carousel">
+    <img class="active" src="../static/images/8AFDBF9111FA2976D7E51DC441993F2E89F5EB61_size251_w1080_h743.png" alt="Image 1">
+    <img src="../static/images/23102523mud3.jpg" alt="Image 2">
+    <img src="path_to_image3.jpg" alt="Image 3">
+    <!-- Add more images as needed -->
+</div>
+<div class="indicators">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <!-- Add more indicators as needed -->
+</div>
+
+<script>
+let currentIndex = 0;
+const images = document.querySelectorAll('.carousel img');
+const indicators = document.querySelectorAll('.indicators span');
+
+function updateCarousel() {
+    images.forEach((img, index) => {
+        if (index === currentIndex) {
+            img.classList.add('active');
+        } else {
+            img.classList.remove('active');
+        }
+    });
+    indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateCarousel();
+}
+
+// Set interval for automatic slide change
+setInterval(nextSlide, 3000); // Change slide every 3 seconds
+
+// Indicator click event
+indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+    });
+});
+</script>
+</body>
+</html>

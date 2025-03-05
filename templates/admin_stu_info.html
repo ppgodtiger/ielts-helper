@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>学生信息页</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//cdn.staticfile.org/layui/2.9.7/css/layui.css" rel="stylesheet">
+    <script src="//unpkg.com/layui@2.9.7/dist/layui.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin ">
+  <div class="layui-header">
+  <div class="layui-logo layui-hide-xs layui-bg-black layui-font-22">Admin系统</div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <!-- 移动端显示 -->
+      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </li>
+      <li class="layui-nav-item layui-hide-xs"><a href="{{ ('admin_index') }}">首页</a></li>
+      <li class="layui-nav-item">
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+        <a href="javascript:;">
+          <img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+          tester
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{ ('logout') }}">Sign out</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more-vertical"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-username" style="font-size: 30px; color: #1E9FFF;"></i>学生用户管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('stu_info') }}">基本信息管理</a></dd>
+            <dd><a class="layui-font-18" href="{{ ('student_m')}}">背词数据</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-read" style="font-size: 30px; color: #1E9FFF;"></i>作文管理</a>
+          <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('zuowen_info') }}">基本信息</a></dd>
+            <dd><a class="layui-font-18" href="{{ ('zuowen_jilu') }}">批改数据</a></dd>
+          </dl>
+            <li class="layui-nav-item">
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-email" style="font-size: 30px; color: #1E9FFF;"></i>论坛管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('luntan_info') }}">论坛信息</a></dd>
+          </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-template-1" style="font-size: 30px; color: #1E9FFF;"></i>真题管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('yuedu_info') }}">阅读真题管理</a></dd>
+                <dd><a class="layui-font-18" href="{{ ('listen_info') }}">听力真题管理</a></dd>
+            </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-chart" style="font-size: 30px; color: #1E9FFF;"></i>rank信息管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('rank') }}">学生rank信息</a></dd>
+          </dl>
+          <a class="layui-font-20" href="javascript:;"><i class="layui-icon layui-icon-chart-screen" style="font-size: 30px; color: #1E9FFF;"></i>视频信息管理</a>
+            <dl class="layui-nav-child">
+            <dd><a class="layui-font-18" href="{{ ('video_info') }}">视频管理</a></dd>
+          </dl>
+      </li>
+      </ul>
+    </div>
+  </div>
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <blockquote class="layui-elem-quote layui-text layui-font-28">
+        您好，管理员，请查看学生基本信息！
+      </blockquote>
+      <div class="layui-card layui-panel">
+        <div class="layui-card-header layui-font-22">
+          学生基本信息
+        </div>
+        <div class="layui-card-body layui-font-20">
+                <div class="layui-card-header" >
+          学生用户信息表格
+        </div>
+            <table id = "student" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+              <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="getData">获取当前页数据</button>
+              </div>
+            </script>
+            <script type="text/html" id = "caozuo">
+                <button type="button" class="layui-btn layui-btn-sm" lay-event="edit" >编辑</button>
+                <button type="button" class="layui-btn layui-bg-orange layui-btn-sm" lay-event="del">删除</button>
+            </script>
+
+
+<form class="layui-form" action="" id="form_edit" lay-filter="form_edit" style="margin-top: 20px;display: none">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="id" lay-verify="required" autocomplete="off" placeholder="请输入"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="psw" lay-verify="required" autocomplete="off" placeholder="请输入"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户邮箱</label>
+        <div class="layui-input-block">
+            <input type="text" name="email" lay-verify="required" autocomplete="off" placeholder="请输入"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="edit-commit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script type = "text/javascript">
+                const change_student = async (id, data) => {
+                        const options = {
+                            method: 'PUT',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(data)
+                        }
+                        const response = await fetch(`/edit_stu_info/${id}`, options)
+                        return await response.json()
+                    }
+                layui.use("table",function () {
+                    var table = layui.table;
+                    table.render({
+                        elem:"#student",// elem属性用来绑定容器的ID属性
+                        url:"/get_stu_list",//接口
+                        method:'get',
+                        cols:[[
+                            {field:'id',title:'用户编号',sort:true, width:150},
+                            {field:'psw',title:'用户密码', width:200},
+                            {field:'username',title:'用户名', width:250},
+                            {field:'email',title:'用户邮箱', width:250},
+                            {field: '操作',title:'操作',toolbar:'#caozuo'},
+                        ]],
+                        page:true,
+                        toolbar: "#toolbarDemo"
+                    });
+
+                    table.on('tool(test)',function (obj) {
+                        //得到当前操作行的相关信息
+                        var data = obj.data;
+                        var form = layui.form;
+                        //console.log(obj)
+                        window.show_edit = (obj) => {
+                                    console.log(obj.data)
+
+                                    form.val('form_edit', obj.data);
+
+                                    layer.open({
+                                        type: 1,
+                                        area: ['900px', '600px'],
+                                        content: $('#form_edit'), // 捕获的元素
+                                        shade:0.0
+                                    });
+                                }
+                        form.on('submit(edit-commit)', function (data) {
+                                var field = data.field; // 获取表单字段值
+                                console.log(field)
+                                // 此处可执行 Ajax 等操作
+                                field.disable = field?.disable ? true : false
+
+                                change_student(field.id, field).then(function (ret) {
+
+                                    // 提交成功之后的回调
+                                    if (!ret.code) {
+                                        layer.msg(ret.msg, {
+                                            icon: 1,
+                                            time: 1000,
+                                        }, function () {
+                                            layer.closeAll('page');
+                                            table.reload('student');
+                                        });
+                                    } else {
+                                        layer.msg(ret.msg, {
+                                            icon: 2,
+                                            time: 1000,
+                                        });
+                                    }
+                                })
+
+                                return false; // 阻止默认 form 跳转
+                            });
+
+                        console.log(data.id)
+                        if(obj.event === 'del'){
+                            layer.confirm('数据删除无法恢复！你确定删除吗？',function (index) {
+                                obj.del();
+                                layer.close(index);
+                                $.ajax({
+                                    type:'delete',
+                                    url:`/delete_stu_info/${data.id}`,
+                                    dataType:"json",
+                                    success:function (data) {
+                                        layer.msg("删除成功");
+                                    },
+                                    error:function(XMLHttpRequest,textStatus,errorThrown){
+                                        layer.msg("删除失败");
+                                    }
+                                });
+                                layer.msg("删除成功！")
+                            })
+                        }
+                        else if(obj.event == 'edit'){
+                            window.show_edit(obj)
+                        }
+
+                    });
+
+
+                })
+            </script>
+      </div>
+        </div>
+      </div>
+      <br><br>
+    </div>
+  </div>
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    底部固定区域
+  </div>
+</div>
+</body>
+</html>

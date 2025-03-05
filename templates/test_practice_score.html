@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Practice Score</title>
+    <link rel="stylesheet" href="../static/CSS/index.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* 按钮与输入框之间的间隔 */
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+         .audio-player {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 两列，每列占据相同的空间 */
+            gap: 20px; /* 列之间的间隔 */
+        }
+
+        .question-side {
+            /* 题目侧样式 */
+        }
+
+        .answer-side {
+            /* 答案侧样式 */
+            display: flex;
+            flex-direction: column;
+        }
+         .question-side, .answer-side {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            height: 600px; /* 根据需要调整 */
+        }
+
+        .image-item {
+            text-align: center; /* 使图片居中 */
+        }
+
+        .answer-input {
+            margin-top: 20px; /* 输入框与图片之间的间隔 */
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px; /* 按钮与输入框之间的间隔 */
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+        .question-side {
+        /* 题目侧样式 */
+        overflow-y: auto; /* 添加垂直滚动条 */
+        height: 1000px; /* 设置固定高度，或者根据需要调整 */
+    }
+        .answer-side {
+        /* 题目侧样式 */
+        overflow-y: auto; /* 添加垂直滚动条 */
+        height: 1000px; /* 设置固定高度，或者根据需要调整 */
+    }
+    </style>
+</head>
+ <header>
+            <div id="logo"></div>
+
+            <h1 class="animated-title">雅思小助手</h1>
+            {% if id %}
+            <p>已登录，欢迎您 {{ id }}!</p>
+                <a href="{{ url_for('logout') }}" class="logout-button">登出</a>
+            {% else %}
+            <p>您未登录，请先登录。</p>
+            <a href="{{ url_for('login') }}">登录</a>
+            {% endif %}
+        </header>
+
+        <nav>
+             <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('learn') }}">学习中心</a>
+            <a href="#resources">雅思报名</a>
+            <a href="{{ url_for('zhenti_index') }}">真题练习</a>
+            <a href="#contact">关于编者</a>
+            <a href="{{ url_for('ranking') }}">rank分数</a>
+            <a href="{{ url_for('test_index') }}">考试练习</a>
+            <a href="{{ url_for('video_index') }}">视频中心</a>
+        </nav>
+<main>
+<div class="container">
+        <div class="question-side">
+            <h2>Test Scores</h2>
+    <table border="1">
+        <tr>
+            <th>Score Type</th>
+            <th>Score</th>
+        </tr>
+        <tr>
+            <td>听力分数</td>
+            <td>{{ listen_score }}</td>
+        </tr>
+        <tr>
+            <td>阅读分数</td>
+            <td>{{ read_score }}</td>
+        </tr>
+        <tr>
+            <td>小作文分数</td>
+            <td>{{ Lwrite_score }}</td>
+        </tr>
+        <tr>
+            <td>大作文分数</td>
+            <td>{{ Bwrite_score }}</td>
+        </tr>
+    </table>
+
+            <h2>您的小作文</h2>
+    <table>
+        <tr>
+            <th>题目ID</th>
+            <th>作文内容</th>
+        </tr>
+        <tr>
+            <td>{{question_id }}</td>
+            <td>{{ Lwrite}}</td>
+        </tr>
+    </table>
+    <h2>小作文范文</h2>
+                <div class="image-item">
+                    <img src="{{ answer_Lroute[0] }}" alt="Image from database" style="max-width: 100%; height: auto;">
+                </div>
+    <h2>您的大作文</h2>
+        <table>
+            <tr>
+                <th>题目ID</th>
+                <th>作文内容</th>
+            </tr>
+            <tr>
+                <td>{{question_id }}</td>
+                <td>{{ Bwrite}}</td>
+            </tr>
+        </table>
+        <h2>大作文范文</h2>
+                <div class="image-item">
+                    <img src="{{ answer_Broute[0] }}" alt="Image from database" style="max-width: 100%; height: auto;">
+                </div></div>
+
+  <div class = "answer-side">
+    <table>
+        <tr>
+            <th>Submitted Answer</th>
+            <th>Correct Answer</th>
+        </tr>
+        {% for i in range(submitted_read_answers|length) %}
+        <tr>
+            <td>{{ submitted_read_answers[i] }}</td>
+            <td>{{ correct_read_answers[i] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Listen Answers</h2>
+    <table>
+        <tr>
+            <th>Submitted Answer</th>
+            <th>Correct Answer</th>
+        </tr>
+        {% for i in range(submitted_listen_answers|length) %}
+        <tr>
+            <td>{{ submitted_listen_answers[i] }}</td>
+            <td>{{ correct_listen_answers[i] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+</main>
+
+</html>
